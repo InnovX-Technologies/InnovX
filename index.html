@@ -89,7 +89,7 @@
 
 <body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center position-relative w-100">
+  <header id="header" class="header d-flex align-items-center position-fixed w-100">
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
@@ -126,7 +126,7 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
+      <a class="btn-getstarted" href="#about">Get Started</a>
     </div>
   </header>
 
@@ -1374,7 +1374,7 @@
               <h3>Send Us a Message</h3>
               <p>If you have any questions, feedback, or inquiries, please don't hesitate to get in touch. We look forward to hearing from you and will respond promptly to your message.</p>
 
-              <form class="php-email-form" role="form">
+              <form class="php-email-form" role="form" id="contact-form">
                 <!-- CSRF Token -->
                 <input type="hidden" name="csrf_token">
                 
@@ -1433,6 +1433,39 @@
     </section><!-- /Contact Section -->
 
   </main>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+  (function(){
+      emailjs.init({
+          publicKey: "YeKQRkzibqnRNNeVE",
+        });
+  })();
+
+    document.getElementById("contact-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Collect form data
+        const formData = {
+            name: this.nameInput.value,
+            email: this.emailInput.value,
+            subject: this.subjectInput.value,
+            message: this.messageInput.value
+            
+        };
+  
+        // Replace YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, and YOUR_PUBLIC_KEY
+        emailjs.send("service_ry7r8m9", "template_0d5ljf3", formData)
+            .then(function(response) {
+                alert("Email sent successfully! We'll get back to you soon.");
+                console.log("Success!", response.status, response.text);
+                document.getElementById("contact-form").reset();
+            })
+            .catch(function(error) {
+                alert("Failed to send email. Please try again.");
+                console.log("Error:", error);
+            });
+    });
+  </script>
   
 
   <footer id="footer" class="footer">
